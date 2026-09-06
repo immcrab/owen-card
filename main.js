@@ -17,10 +17,10 @@
   /* ---- tagline crossfade ---- */
   const ticker = document.getElementById("ticker");
   const lines = [
-    "i print, i edit, i ship.",
-    "somewhere with a printer running too loud.",
-    "one more cut and it's done.",
-    "40% infill, 100% commitment.",
+    "I built something",
+    "This is my website",
+    "I got this website for free (github education)",
+    "Oh.",
   ];
   if (!reduce) {
     let i = 0;
