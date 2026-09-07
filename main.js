@@ -181,6 +181,7 @@
     const backBtn = document.getElementById("pl-back");
     const fwdBtn = document.getElementById("pl-fwd");
     const muteBtn = document.getElementById("pl-mute");
+    const loopBtn = document.getElementById("pl-loop");
     const miniBtn = document.getElementById("pl-mini");
     const seek = document.getElementById("pl-seek");
     const seekFill = document.getElementById("pl-seek-fill");
@@ -190,11 +191,19 @@
     const durEl = document.getElementById("pl-dur");
     const KEY = "player.v1";
 
+    const ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7L8 5z" fill="currentColor"/></svg>';
+    const ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.2v14H7zM13.8 5H17v14h-3.2z" fill="currentColor"/></svg>';
+
     const state = Object.assign(
-      { vol: 0.7, muted: false, min: false, x: null, y: null },
+      { vol: 0.7, muted: false, loop: true, min: false, x: null, y: null },
       (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })()
     );
     const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} };
+
+    const syncMute = () => {
+      volFill.style.width = (audio.muted ? 0 : state.vol * 100) + "%";
+      muteBtn.classList.toggle("off", audio.muted);
+    };
 
     const mmss = (s) => {
       if (!isFinite(s)) return "0:00";
@@ -206,10 +215,10 @@
     pl.hidden = false;
     audio.volume = state.vol;
     audio.muted = state.muted;
+    audio.loop = state.loop;
     pl.dataset.min = String(state.min);
-    volFill.style.width = (state.muted ? 0 : state.vol * 100) + "%";
-    muteBtn.textContent = state.muted ? "🔇" : "♪";
-    muteBtn.classList.toggle("off", state.muted);
+    loopBtn.classList.toggle("on", state.loop);
+    syncMute();
     pl.classList.add("paused");
 
     const clampPos = () => {
@@ -232,7 +241,7 @@
     /* ---- playback ---- */
     const setPlaying = (on) => {
       pl.classList.toggle("paused", !on);
-      playBtn.textContent = on ? "❚❚" : "▶";
+      playBtn.innerHTML = on ? ICON_PAUSE : ICON_PLAY;
       playBtn.setAttribute("aria-label", on ? "pause" : "play");
     };
     const tryPlay = () => audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
@@ -292,9 +301,7 @@
       audio.volume = v;
       state.vol = v;
       if (v > 0 && audio.muted) { audio.muted = false; state.muted = false; }
-      volFill.style.width = (audio.muted ? 0 : v * 100) + "%";
-      muteBtn.textContent = audio.muted ? "🔇" : "♪";
-      muteBtn.classList.toggle("off", audio.muted);
+      syncMute();
       save();
     });
 
@@ -302,9 +309,15 @@
     muteBtn.addEventListener("click", () => {
       audio.muted = !audio.muted;
       state.muted = audio.muted;
-      volFill.style.width = (audio.muted ? 0 : state.vol * 100) + "%";
-      muteBtn.textContent = audio.muted ? "🔇" : "♪";
-      muteBtn.classList.toggle("off", audio.muted);
+      syncMute();
+      save();
+    });
+
+    /* ---- loop ---- */
+    loopBtn.addEventListener("click", () => {
+      state.loop = !audio.loop;
+      audio.loop = state.loop;
+      loopBtn.classList.toggle("on", state.loop);
       save();
     });
 
@@ -319,7 +332,7 @@
     /* ---- drag window ---- */
     let d = null;
     grip.addEventListener("pointerdown", (e) => {
-      if (e.target.closest(".pl-btn")) return;
+      if (e.target.closest(".pl-rb, .pl-mini")) return;
       const r = pl.getBoundingClientRect();
       d = { dx: e.clientX - r.left, dy: e.clientY - r.top };
       grip.setPointerCapture(e.pointerId);

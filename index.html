@@ -162,33 +162,50 @@
 </main>
 
 <div class="player" id="player" data-min="false" hidden>
-  <div class="pl-grip" id="pl-grip">
-    <span class="pl-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="pl-track">
-      <span class="pl-title">Jane!</span>
+  <button class="pl-mini" id="pl-mini" aria-label="minimize" title="minimize"></button>
+
+  <div class="pl-top" id="pl-grip">
+    <div class="pl-art">
+      <img id="pl-art-img" src="jane-cover.jpg" alt="Jane! cover"
+           onerror="this.closest('.pl-art').classList.add('empty')" />
+      <span class="pl-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="pl-side">
       <span class="pl-artist">The Long Faces</span>
-    </span>
-    <button class="pl-btn pl-mini" id="pl-mini" aria-label="minimize" title="minimize"></button>
+      <span class="pl-title">Jane!</span>
+      <div class="pl-ctrls">
+        <button class="pl-rb" id="pl-back" aria-label="back 10 seconds" title="−10s">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 6 4 12l7 6V6zm9 0-7 6 7 6V6z" fill="currentColor"/></svg>
+        </button>
+        <button class="pl-rb pl-play" id="pl-play" aria-label="play" title="play / pause">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7L8 5z" fill="currentColor"/></svg>
+        </button>
+        <button class="pl-rb" id="pl-fwd" aria-label="forward 10 seconds" title="+10s">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 6l7 6-7 6V6zM4 6l7 6-7 6V6z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div class="pl-body">
+  <div class="pl-bottom">
     <div class="pl-seek" id="pl-seek" role="slider" aria-label="seek" tabindex="0">
       <div class="pl-seek-fill" id="pl-seek-fill"></div>
     </div>
-    <div class="pl-times">
-      <span id="pl-cur">0:00</span>
-      <span id="pl-dur">0:00</span>
-    </div>
-
-    <div class="pl-row">
-      <button class="pl-btn" id="pl-back" aria-label="back 10 seconds" title="-10s">−10</button>
-      <button class="pl-btn pl-play" id="pl-play" aria-label="play" title="play/pause">▶</button>
-      <button class="pl-btn" id="pl-fwd" aria-label="forward 10 seconds" title="+10s">+10</button>
-
-      <button class="pl-btn pl-mute" id="pl-mute" aria-label="mute" title="mute">♪</button>
-      <div class="pl-vol" id="pl-vol" role="slider" aria-label="volume" tabindex="0">
-        <div class="pl-vol-fill" id="pl-vol-fill"></div>
+    <div class="pl-foot">
+      <span class="pl-time" id="pl-cur">0:00</span>
+      <div class="pl-mid">
+        <button class="pl-ib pl-mute" id="pl-mute" aria-label="mute" title="mute">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path class="pl-wave" d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6"/><path class="pl-x" d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <div class="pl-vol" id="pl-vol" role="slider" aria-label="volume" tabindex="0">
+          <div class="pl-vol-fill" id="pl-vol-fill"></div>
+        </div>
+        <button class="pl-ib pl-loop" id="pl-loop" aria-label="loop" title="loop">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v7z" fill="currentColor"/></svg>
+        </button>
       </div>
+      <span class="pl-time" id="pl-dur">0:00</span>
     </div>
   </div>
 
