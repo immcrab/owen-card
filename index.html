@@ -161,6 +161,43 @@
   </footer>
 </main>
 
+<div class="player" id="player" data-min="false" hidden>
+  <div class="pl-grip" id="pl-grip">
+    <span class="pl-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="pl-track">
+      <span class="pl-title">Jane!</span>
+      <span class="pl-artist">The Long Faces</span>
+    </span>
+    <button class="pl-btn pl-mini" id="pl-mini" aria-label="minimize" title="minimize"></button>
+  </div>
+
+  <div class="pl-body">
+    <div class="pl-seek" id="pl-seek" role="slider" aria-label="seek" tabindex="0">
+      <div class="pl-seek-fill" id="pl-seek-fill"></div>
+    </div>
+    <div class="pl-times">
+      <span id="pl-cur">0:00</span>
+      <span id="pl-dur">0:00</span>
+    </div>
+
+    <div class="pl-row">
+      <button class="pl-btn" id="pl-back" aria-label="back 10 seconds" title="-10s">−10</button>
+      <button class="pl-btn pl-play" id="pl-play" aria-label="play" title="play/pause">▶</button>
+      <button class="pl-btn" id="pl-fwd" aria-label="forward 10 seconds" title="+10s">+10</button>
+
+      <button class="pl-btn pl-mute" id="pl-mute" aria-label="mute" title="mute">♪</button>
+      <div class="pl-vol" id="pl-vol" role="slider" aria-label="volume" tabindex="0">
+        <div class="pl-vol-fill" id="pl-vol-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="pl-audio" preload="metadata" loop>
+    <source src="jane.mp3" type="audio/mpeg" />
+    <source src="jane.ogg" type="audio/ogg" />
+  </audio>
+</div>
+
 <script src="main.js"></script>
 </body>
 </html>
