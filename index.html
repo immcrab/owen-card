@@ -15,6 +15,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 <link rel="icon" href="pfp.jpg" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VNH9RGNSEY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  var __cc = null;
+  try { __cc = localStorage.getItem('cookie-consent'); } catch (e) {}
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: __cc === 'accepted' ? 'granted' : 'denied'
+  });
+
+  gtag('config', 'G-VNH9RGNSEY');
+</script>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -161,6 +180,14 @@
   </footer>
 </main>
 
+<div class="cc" id="cc" role="dialog" aria-label="cookie notice" hidden>
+  <p class="cc-text">Cookies for anonymous Google&nbsp;Analytics. No ads, no tracking across sites.</p>
+  <div class="cc-btns">
+    <button class="cc-btn" id="cc-decline">Decline</button>
+    <button class="cc-btn cc-accept" id="cc-accept">Accept</button>
+  </div>
+</div>
+
 <div class="player" id="player" data-min="false" hidden>
   <button class="pl-mini" id="pl-mini" aria-label="minimize" title="minimize"></button>
 
@@ -216,5 +243,27 @@
 </div>
 
 <script src="main.js"></script>
+<script>
+(function () {
+  var cc = document.getElementById('cc');
+  if (!cc) return;
+  var saved = null;
+  try { saved = localStorage.getItem('cookie-consent'); } catch (e) {}
+  if (!saved) cc.hidden = false;
+
+  function choose(v) {
+    try { localStorage.setItem('cookie-consent', v); } catch (e) {}
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        analytics_storage: v === 'accepted' ? 'granted' : 'denied'
+      });
+    }
+    cc.hidden = true;
+  }
+
+  document.getElementById('cc-accept').addEventListener('click', function () { choose('accepted'); });
+  document.getElementById('cc-decline').addEventListener('click', function () { choose('declined'); });
+})();
+</script>
 </body>
 </html>
